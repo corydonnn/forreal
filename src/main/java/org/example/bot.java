@@ -53,27 +53,28 @@ public class bot extends ListenerAdapter {
     public String[] searchcsv(String searchWord) {
         try {
             System.out.println("Trying to search");
-            CSVReader reader = new CSVReader(new FileReader("C:\\Users\\gabet\\IdeaProjects\\forreal\\src\\main\\java\\output.csv"));
+            CSVReader reader = new CSVReader(new FileReader("/Users/michaelchen/Downloads/forreal-master/src/main/java/output.csv"));
             String[] nextLine;
+            reader.readNext();
             while ((nextLine = reader.readNext()) != null) { //while the next line is not null
-                System.out.println("Searching");
                 for (String cell : nextLine) {
-                    if (cell.matches(searchWord)) {
-                        System.out.println("Found");
+                    if (cell.toLowerCase().contains(searchWord.toLowerCase())) {
+                        System.out.println("Found" + cell);
+                        return nextLine;
                     }
                 }
             }
-            return nextLine;
         }
         catch (Exception e) {
             e.printStackTrace();
             return null;
         }
+        return new String[]{"No match found."};
     }
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
-        String mypath = "C:\\Users\\gabet\\IdeaProjects\\forreal\\src\\main\\java\\output.csv";
+        String mypath = "/Users/michaelchen/Downloads/forreal-master/src/main/java/output.csv";
         System.out.println("test");
         if (event.getAuthor().isBot())
             return;
@@ -85,13 +86,11 @@ public class bot extends ListenerAdapter {
         // console view (strip discord formatting)
         MessageChannel channel = event.getChannel();
         channel.sendMessage("Message recieved. Trying to read.").queue();
-        if (content.equals("explode")) {
-                channel.sendMessage("trying to search csv").queue();
-                String[] toJoin = searchcsv("baki");
-                channel.sendMessage("trying to join string array").queue();
-                String toSend = String.join(",", toJoin);
-                channel.sendMessage("trying to send joined string").queue();
-                channel.sendMessage(toSend).queue();
-        }
+        channel.sendMessage("trying to search csv").queue();
+        String[] toJoin = searchcsv(content);
+        channel.sendMessage("trying to join string array").queue();
+        String toSend = String.join(",", toJoin);
+        channel.sendMessage("trying to send joined string").queue();
+        channel.sendMessage(toSend).queue();
     }
 }
