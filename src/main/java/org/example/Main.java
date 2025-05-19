@@ -21,7 +21,7 @@ public class Main {
         JDA api = JDABuilder.createDefault(token, GatewayIntent.GUILD_MESSAGES, GatewayIntent.MESSAGE_CONTENT)
                 .addEventListeners(new bot())
                 .build().awaitReady();
-        readAllDataAtOnce("C:\\Users\\gabet\\IdeaProjects\\forreal\\src\\main\\java\\output.csv");
+        readAllDataAtOnce("/Users/michaelchen/Downloads/forreal-master/src/main/java/output.csv");
     }
 
 }
